@@ -7,32 +7,18 @@ int main() {
     int memSize = 64;
     int mem[memSize];
 
-    // reset array
-    for (int i = 0; i < memSize; i++)
-        mem[i] = 0;
+    // stack
+    int stack[memSize/4];
+    int sp = memSize/4 - 1; // stack pointer
 
-    int bracks[memSize]; // locations of brackets
-    int cbracks[memSize]; // location of closing brackets
-    int bracksp = 0; // bracks pointer, last one
-    int cbracksp = 0; // closing bracks pointer, last one
-    int brackCount = 1;
+    // reset arrays
+    for (int i = 0; i < memSize; i++) {
+        mem[i] = 0;
+        stack[i/4] = 0;  // must be a netter way of doing this...
+    }
+        
 
     char code[] = ">+++++++++[<++++++++>-]<.>+++++++[<++++>-]<+.+++++++..+++.[-]>++++++++[<++++>-] <.>+++++++++++[<++++++++>-]<-.--------.+++.------.--------.[-]>++++++++[<++++>- ]<+.[-]++++++++++.";
-
-    /* Find location of brackets
-    Can't think of any way to make both for loops one loop */
-    for (int i = 0; i < strlen(code); i++) {
-        switch (code[i]) {
-            case '[':
-                bracks[bracksp] = i;
-                bracksp++;
-                break;
-            case ']':
-                cbracks[cbracksp] = i;
-                cbracksp++;
-                break;
-        }
-    }
 
     // loop chars in code
     for (int i = 0; i < strlen(code); i++) {
@@ -57,11 +43,12 @@ int main() {
                 mem[memp] = getchar();
                 break;
             case '[':
-                if (mem[memp] == 0) i = cbracks[cbracksp-brackCount];
+                stack[sp] = i;
+                sp++;
                 break;
             case ']':
-                if (cbracks[brackCount - 1] != i) brackCount++;
-                if (mem[memp] != 0) i = bracks[bracksp-brackCount];
+                if (mem[memp] != 0) i = stack[sp-1];
+                else sp--;
                 break;
         }
     }
