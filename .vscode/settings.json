@@ -1,6 +1,8 @@
 {
     "files.associations": {
-        "system_error": "c"
+        "system_error": "c",
+        "string.h": "c",
+        "stdio.h": "c"
     },
     "cSpell.words": [
         "bracksp",
