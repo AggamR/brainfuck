@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
     }
 
     FILE * fpointer;
-    fpointer = fopen("test.txt", "r"); 
+    fpointer = fopen(argv[1], "r"); 
     char line[128];
     char code[512];
     while (!feof(fpointer)) {
