@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 
+#define COLOR_RED     "\x1b[31m"
+#define COLOR_RESET   "\x1b[0m"
+
 int main(int argc, char *argv[]) {
     if (argc != 2) {
         printf("usage: `bf FILE`");
@@ -9,6 +12,12 @@ int main(int argc, char *argv[]) {
 
     FILE * fpointer;
     fpointer = fopen(argv[1], "r"); 
+
+    if (fpointer == NULL) {
+        printf(COLOR_RED "file can't be opened\n" COLOR_RESET);
+        return 1;
+    }
+
     char line[128];
     char code[512];
     while (!feof(fpointer)) {
