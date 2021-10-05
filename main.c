@@ -18,10 +18,10 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    char line[128];
-    char code[512];
+    char line[1024];
+    char code[1024];
     while (!feof(fpointer)) {
-        fgets(line, 128, fpointer);
+        fgets(line, 1024, fpointer);
         strcat(code, line);
     }
     fclose(fpointer); 
@@ -43,6 +43,7 @@ int main(int argc, char *argv[]) {
 
     // loop chars in code
     for (int i = 0; i < strlen(code); i++) {
+
         if (code[i] == '\n') {
             iscomment = 0;
             continue;
@@ -79,8 +80,12 @@ int main(int argc, char *argv[]) {
                 sp++;
                 break;
             case ']':
-                if (mem[memp] != 0) i = stack[sp-1];
-                else sp--;
+                if (mem[memp] != 0) {
+                    if (i - 1 == stack[sp-1])
+                        return 0;
+
+                    i = stack[sp-1];
+                } else sp--;
                 break;
         }
     }
