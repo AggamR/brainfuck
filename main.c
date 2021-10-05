@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define COLOR_RED     "\x1b[31m"
 #define COLOR_RESET   "\x1b[0m"
@@ -18,16 +19,17 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    char line[1024];
-    char code[1024];
+    char line[4096];
+    char code[16000]; 
+
     while (!feof(fpointer)) {
-        fgets(line, 1024, fpointer);
+        fgets(line, 4096, fpointer);
         strcat(code, line);
     }
     fclose(fpointer); 
 
     int memp = 0; // memory pointer
-    int memSize = 64;
+    int memSize = 4096;
     int mem[memSize];
 
     int stack[memSize/4];
@@ -49,8 +51,7 @@ int main(int argc, char *argv[]) {
             continue;
         }
 
-        if (iscomment)
-            continue;
+        if (iscomment) continue;
 
         //printf("\nmem[memp]: %d\ni: %d", mem[memp], i);
         switch (code[i]) {
@@ -81,8 +82,7 @@ int main(int argc, char *argv[]) {
                 break;
             case ']':
                 if (mem[memp] != 0) {
-                    if (i - 1 == stack[sp-1])
-                        return 0;
+                    if (i - 1 == stack[sp-1]) return 0;
 
                     i = stack[sp-1];
                 } else sp--;
