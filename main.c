@@ -33,6 +33,8 @@ int main(int argc, char *argv[]) {
     int stack[memSize/4];
     int sp = memSize/4 - 1; // stack pointer
 
+    char iscomment = 0;
+
     // reset arrays
     for (int i = 0; i < memSize; i++) {
         mem[i] = 0;
@@ -41,8 +43,19 @@ int main(int argc, char *argv[]) {
 
     // loop chars in code
     for (int i = 0; i < strlen(code); i++) {
+        if (code[i] == '\n') {
+            iscomment = 0;
+            continue;
+        }
+
+        if (iscomment)
+            continue;
+
         //printf("\nmem[memp]: %d\ni: %d", mem[memp], i);
         switch (code[i]) {
+            case '#':
+                iscomment = 1;
+                break;
             case '+':
                 mem[memp]++;
                 break;
