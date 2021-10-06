@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
                 // if not 0, enter
                 if (mem[memp] != 0) {
                     stack[sp] = i;
-                    sp++;
+                    sp--;
                 } else {
                     bCount = 0;
                     for (int j = i+1; j < MEM_SIZE; j++) {
@@ -97,9 +97,9 @@ int main(int argc, char *argv[]) {
                 break;
             case ']':
                 if (mem[memp] != 0) {
-                    if (i - 1 == stack[sp-1]) return 0;
-                    i = stack[sp-1];
-                } else sp--;
+                    if (i - 1 == stack[sp+1]) return 0;
+                    i = stack[sp+1];
+                } else sp++;
                 break;
         }
     }
